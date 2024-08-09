@@ -39,7 +39,7 @@ if "storage_disabled" not in st.session_state:
     st.session_state["storage_disabled"] = True
 
 # ---------- SIDEBAR ----------
-with open(r"D:\TMT\Projects\0 - WJ Analytics\Trackman\Trackman-Analytics\Supabase App\siderbar.html", "r", encoding="UTF-8") as sidebar_file:
+with open(r"siderbar.html", "r", encoding="UTF-8") as sidebar_file:
     sidebar_html = sidebar_file.read().replace("{VERSION}", VERSION)
 
 with st.sidebar:
