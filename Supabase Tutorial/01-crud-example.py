@@ -15,12 +15,21 @@ supabase = create_client(url, key)
 
 # print(response)
 
-created_at = datetime.utcnow() - timedelta(hours=2)
+# created_at = datetime.utcnow() - timedelta(hours=2)
+
+# response = (
+#     supabase.table("todos").insert({"name": "Todo 3","created_at":str(created_at)}).execute()
+# )
+
+# response = supabase.table("todos").select("*").execute()
+
 
 response = (
-    supabase.table("todos").insert({"name": "Todo 3","created_at":str(created_at)}).execute()
+    supabase.table("todos")
+    .update({"name": "updated name"})
+    .eq("id", 1)
+    .execute()
 )
 
-response = supabase.table("todos").select("*").execute()
 
 print(response)
