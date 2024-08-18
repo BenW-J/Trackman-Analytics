@@ -2,6 +2,8 @@ import streamlit as st
 import requests
 import pandas as pd
 
+
+
 if "symbols_list" not in st.session_state:
     st.session_state.symbols_list = None
     
@@ -26,7 +28,7 @@ title_col, player_col, t55_col, t65_col, t75_col, t85_col, t95_col, t105_col, t1
 
 
 with title_col:
-    st.markdown('<p class="dashboard_title">Combine<br>Analyser</p>', unsafe_allow_html = True)
+    st.markdown('<p class="dashboard_title">Trackman<br>Analysis</p>', unsafe_allow_html = True)
     
 
 with player_col:
@@ -81,34 +83,4 @@ with driver_col:
     with st.container():
         btc_price = '88'
         st.markdown(f'<p class="btc_text">Driver<br></p><p class="price_details">{btc_price}</p>', unsafe_allow_html = True)
-        
-
-params_col, chart_col, data_col = st.columns([0.5,1.2,0.6])
-
-with params_col:
-    
-    with st.form(key = 'params_form'):
-        
-        st.markdown(f'<p class="params_text">CHART DATA PARAMETERS', unsafe_allow_html = True)
-        
-        st.divider()
-        
-        exchanges = ['binance', 'bitstamp', 'binancefutures', 'whitebit', 'bybit', 'gatetio', 'coinbase', 'binanceus', 'kraken']
-        exchange = st.selectbox('Exchange', exchanges, key = 'exchange_selectbox')
-        
-        if st.session_state.symbols_list == None:
-            symbols = []
-            
-        else:
-            symbol = st.selectbox('Symbol', st.session_state.symbols_list, key = 'symbol_selectbox')
-        
-        interval_col, period_col = st.columns(2)
-        with interval_col:
-            interval = st.selectbox('Interval', ['1m', '5m', '15m', '30m', '1h', '2h', '4h', '12h', '1d'], key = 'interval_selectbox')
-        with period_col:
-            period = st.number_input('Period', min_value = 10, max_value = 500, value = 365, step = 1, key = 'period_no_input')
-        
-        st.markdown('')
-        update_chart = st.form_submit_button('Update chart')
-        st.markdown('')
         
