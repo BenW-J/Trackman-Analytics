@@ -82,7 +82,7 @@ class HistoricalPerformanceCard extends StatelessWidget {
                       ),
                       show: true,
                     ),
-                    dotData: FlDotData(show: false),
+                    dotData: const FlDotData(show: false),
                     spots: data.spots,
                   )
                 ],

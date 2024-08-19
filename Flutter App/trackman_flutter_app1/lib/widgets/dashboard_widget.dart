@@ -1,8 +1,6 @@
 import 'package:trackman_flutter_app1/util/responsive.dart';
 import 'package:trackman_flutter_app1/widgets/bar_graph_widget.dart';
-import 'package:trackman_flutter_app1/widgets/header_widget.dart';
 import 'package:trackman_flutter_app1/widgets/historical_performance_card.dart';
-import 'package:trackman_flutter_app1/widgets/line_chart_card.dart';
 import 'package:trackman_flutter_app1/widgets/summary_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:trackman_flutter_app1/widgets/target_details_card.dart';

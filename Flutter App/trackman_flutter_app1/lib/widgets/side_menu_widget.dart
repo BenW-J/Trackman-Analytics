@@ -17,12 +17,79 @@ class _SideMenuWidgetState extends State<SideMenuWidget> {
     final data = SideMenuData();
 
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 80, horizontal: 20),
+      padding: const EdgeInsets.symmetric(vertical: 40, horizontal: 20),
       color: const Color(0xFF171821),
-      child: ListView.builder(
-        itemCount: data.menu.length,
-        itemBuilder: (context, index) => buildMenuEntry(data, index),
-      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          //App title
+          const Text(
+            'Data Driven Golf',
+            style: TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          ),
+          const SizedBox(height:20),
+          // Currently logged-in user
+          const Text(
+            'Ben Wagner-Jordan',
+            style: TextStyle(
+              fontSize: 16,
+              color: Colors.white70,
+            ),
+          ),
+          const SizedBox(height:20),
+          //List of menu entries
+          Expanded(
+            child: ListView.builder(
+                itemCount: data.menu.length,
+                itemBuilder: (context, index) => buildMenuEntry(data, index),
+              ),  
+          ),
+          // New Report Entry
+          const SizedBox(height: 20,),
+          const Text(
+            'Input New Combine Report',
+            style: TextStyle(
+              fontSize: 16,
+              color: Colors.white
+            ),
+          ),
+          const SizedBox(height:20),
+          const TextField(
+            decoration: InputDecoration(
+              hintText: 'Paste Report Link Here',
+              hintStyle: TextStyle(color: Colors.grey),
+              border: OutlineInputBorder(),
+            ),
+          ),
+          const SizedBox(height:20),
+          ElevatedButton(
+            onPressed: () {
+              // Add your submit logic here
+            },
+            style: ElevatedButton.styleFrom(
+              padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 24),
+              backgroundColor: selectionColor, // Corrected property for button background color
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ),
+            child: const Text(
+              'Submit',
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.black,
+              ),
+            ),
+          ),
+
+
+        ],
+      )
+      
     );
   }
 
