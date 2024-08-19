@@ -3,6 +3,7 @@ import 'package:trackman_flutter_app1/widgets/dashboard_widget.dart';
 import 'package:trackman_flutter_app1/widgets/side_menu_widget.dart';
 import 'package:trackman_flutter_app1/widgets/summary_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:trackman_flutter_app1/widgets/tests_widget.dart';
 
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
