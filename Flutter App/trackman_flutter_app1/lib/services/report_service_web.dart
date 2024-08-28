@@ -1,0 +1,89 @@
+import 'dart:convert';
+import 'dart:html'; // Import for web platforms
+import 'package:csv/csv.dart';
+import 'package:http/http.dart' as http;
+import 'package:trackman_flutter_app1/model/all_combine_models.dart';
+
+class ReportService {
+  Future<void> fetchAndProcessData(String url) async {
+    try {
+      final response = await http.get(Uri.parse(url));
+
+      if (response.statusCode == 200) {
+        final data = jsonDecode(response.body);
+
+        final players = <Player>[];
+        final combineTestReports = <CombineTestReport>[];
+        final strokes = <Stroke>[];
+        final measurements = <Measurement>[];
+
+        final playerIds = <String>{};
+
+        for (var strokeGroup in data['StrokeGroups']) {
+          final playerJson = strokeGroup['Player'];
+          final playerId = playerJson['Id'];
+
+          if (!playerIds.contains(playerId)) {
+            final player = Player.fromJson(playerJson);
+            players.add(player);
+            playerIds.add(playerId);
+          }
+
+          final report = CombineTestReport.fromJson(strokeGroup, playerId);
+          combineTestReports.add(report);
+
+          for (var strokeJson in strokeGroup['Strokes']) {
+            final stroke = Stroke.fromJson(strokeJson, report.id);
+            strokes.add(stroke);
+            measurements.add(stroke.measurement);
+          }
+        }
+
+        await _saveModelsToCsv('players.csv', players);
+        await _saveModelsToCsv('combine_test_reports.csv', combineTestReports);
+        await _saveModelsToCsv('strokes.csv', strokes);
+        await _saveModelsToCsv('measurements.csv', measurements);
+
+        print('Data successfully saved to CSV files.');
+      } else {
+        throw Exception('Failed to load data: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('Error fetching and processing data: $e');
+    }
+  }
+
+  Future<void> _saveModelsToCsv<T>(String filename, List<T> models) async {
+    if (models.isEmpty) return;
+
+    List<List<dynamic>> csvData = [];
+
+    if (models.first is Player) {
+      csvData.add(Player.csvHeaders());
+      csvData.addAll(models.map((e) => (e as Player).toCsvRow()));
+    } else if (models.first is CombineTestReport) {
+      csvData.add(CombineTestReport.csvHeaders());
+      csvData.addAll(models.map((e) => (e as CombineTestReport).toCsvRow()));
+    } else if (models.first is Stroke) {
+      csvData.add(Stroke.csvHeaders());
+      csvData.addAll(models.map((e) => (e as Stroke).toCsvRow()));
+    } else if (models.first is Measurement) {
+      csvData.add(Measurement.csvHeaders());
+      csvData.addAll(models.map((e) => (e as Measurement).toCsvRow()));
+    } else {
+      throw Exception('Unsupported model type');
+    }
+
+    String csv = const ListToCsvConverter().convert(csvData);
+
+    // Use browser's download functionality
+    final bytes = utf8.encode(csv);
+    final blob = Blob([bytes]);
+    final url = Url.createObjectUrlFromBlob(blob);
+    final anchor = AnchorElement(href: url)
+      ..setAttribute('download', filename)
+      ..click();
+    Url.revokeObjectUrl(url);
+    print('Saved $filename using browser download.');
+  }
+}

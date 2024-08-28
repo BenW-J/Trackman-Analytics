@@ -37,6 +37,9 @@ dependencies:
   cupertino_icons: ^1.0.8
   fl_chart: ^0.68.0
   flutter_svg: ^2.0.10+1
+  http: ^1.2.2  # For making API calls
+  csv: ^6.0.0 
+  path_provider: ^2.0.11  # To get the directory for storing files
 
 dev_dependencies:
   flutter_test:
